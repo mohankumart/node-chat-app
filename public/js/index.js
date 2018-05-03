@@ -15,7 +15,7 @@ socket.on('newMessage', (data)=>{
     console.log(`New Message has come. ${data.from}`);
 })
 
-socket.emit('createMessage', {
-    'from': 'Adrew',
-    'text': 'hello andrew'
-})
+// socket.emit('createMessage', {
+//     'from': 'Adrew',
+//     'text': 'hello andrew'
+// })
