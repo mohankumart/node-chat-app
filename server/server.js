@@ -19,9 +19,10 @@ io.on('connection',(socket)=>{
 
     socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user is joined'))
 
-    socket.on('createMessage', (message) =>{
-        console.log(`createMessage ${message}`)
+    socket.on('createMessage', (message, callback) =>{
+        console.log(`createMessage ${message.text}`)
         io.emit('newMessage', generateMessage(message.from, message.text))
+        callback('Server recived message')
     })
 
     socket.on('disconnect', ()=>{
