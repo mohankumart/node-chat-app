@@ -3,7 +3,8 @@ socket.on('connect',()=>{
     console.log('connected to server')
     socket.emit('createEmail', {
         to: 'hello@fireeye.com',
-        text: 'Hello World'
+        text: 'Hello World',
+        createdAt: 12
     })
 })
 
@@ -12,10 +13,6 @@ socket.on('disconnect',()=>{
 })
 
 socket.on('newMessage', (data)=>{
-    console.log(`New Message has come. ${data.from}`);
+    console.log(`${data.text} from ${data.from}`);
 })
 
-// socket.emit('createMessage', {
-//     'from': 'Adrew',
-//     'text': 'hello andrew'
-// })
