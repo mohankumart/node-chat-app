@@ -13,17 +13,19 @@ socket.on('disconnect',()=>{
 })
 
 socket.on('newMessage', (data)=>{
-    console.log(`${data.text} from ${data.from}`);
+    var formattedTime = moment(moment.createdAt).format('h:mm a')
     var li = jQuery('<li></li>')
-    li.text(`${data.from}: ${data.text}`)
+    li.text(`${data.from} ${formattedTime}: ${data.text}`)
     jQuery('#messages').append(li)
 })
 
 socket.on('newLocationMessage', (message)=>{
+    var formattedTime = moment(moment.createdAt).format('h:mm a')
+
     var li = jQuery('<li></li>')
     var a = jQuery('<a target="_blank">My Current Location</a>')
 
-    li.text(`${message.from}: `)
+    li.text(`${message.from}: ${formattedTime}`)
     a.attr('href', message.url)
 
     li.append(a)
