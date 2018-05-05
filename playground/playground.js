@@ -1,7 +1,12 @@
 var moment = require('moment')
 
 
-var date = moment();
-date.add(1, 'year')
+var timestamp = moment().valueOf();
+console.log(timestamp)
+console.log(moment.utc(timestamp).format('h:mm'))
 
-console.log(date.format('MMM Do, YYYY'))
+
+var timestamp2 = moment().valueOf();
+console.log(timestamp2)
+console.log(moment(timestamp2).format('h:mm'))
+
