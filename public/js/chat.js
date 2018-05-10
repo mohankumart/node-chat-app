@@ -1,10 +1,13 @@
 var socket = io()
 socket.on('connect',()=>{
-    console.log('connected to server')
-    socket.emit('createEmail', {
-        to: 'hello@fireeye.com',
-        text: 'Hello World',
-        createdAt: 12
+    var params = jQuery.deparam(window.location.search)
+    socket.emit('join', params, function(err){
+        if(err){
+            alert(err)
+            window.location.href = '/'
+        }else{
+            console.log('No error')
+        }
     })
 })
 
@@ -19,7 +22,6 @@ var scrollBotton = function(){
     var lastMessageHeight = newMessage.prev().innerHeight()
         
     if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight){
-        debugger;
         messages.scrollTop(scrollHeight)
 
     }
@@ -88,4 +90,14 @@ locationButton.on('click', (e)=>{
         locationButton.removeAttr('disabled').text('Send GeoLocation')
         alert('Unable to fetch location')
     })
+})
+
+
+socket.on('updateUserList', function(users){
+    var ol = jQuery('<ol></ol>')
+
+    users.forEach(user => {
+        ol.append(jQuery('<li></li>').text(user))
+    });
+    jQuery('#users').html(ol)
 })
