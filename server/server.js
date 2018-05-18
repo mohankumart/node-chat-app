@@ -7,7 +7,7 @@ const {isRealString} = require('./utils/validations')
 const {generateMessage, generateLocationMessage} = require('./utils/utils')
 const {Users} = require('./utils/users')
 
-const port = process.env.PORT || 3002
+const port = process.env.PORT || 3007
 const publicPath = path.join(__dirname, '../public')
 
 const app = express()
@@ -38,8 +38,10 @@ io.on('connection',(socket)=>{
     })
 
     socket.on('createMessage', (message, callback) =>{
+        var user = users.getUser(socket.id)
+
         console.log(`createMessage ${message.text}`)
-        io.emit('newMessage', generateMessage(message.from, message.text))
+        io.to(user.room).emit('newMessage', generateMessage(message.from, message.text))
         callback()
     })
 
@@ -48,10 +50,11 @@ io.on('connection',(socket)=>{
     })
 
     socket.on('disconnect', ()=>{
+        debugger
         var user = users.removeUser(socket.id)
 
         if(user){
-            io.to(user.room).emit('updateUserList', user.getuserList(user.room));
+            io.to(user.room).emit('updateUserList', users.getuserList(user.room));
             io.to(user.room).emit('newmessage', generateMessage('Admin', `${user.name} has left`));
         }
         console.log('socket client dsiconnected')
